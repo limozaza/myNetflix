@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Un projet de demarrage pour react avec ;a \u001bla librairie redux",
   "main": "index.js",
-   "repository": "git@github.com:RobinLebhar/ReactRedux-Starter.git",
+  "repository": "git@github.com:RobinLebhar/ReactRedux-Starter.git",
   "scripts": {
-     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch"
   },
@@ -26,6 +26,7 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "babel-preset-stage-1": "^6.1.18",
     "lodash": "^3.10.1",
     "react": "^0.14.3",
