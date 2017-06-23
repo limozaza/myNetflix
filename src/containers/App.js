@@ -60,10 +60,21 @@ class App extends Component{
         }
         return(
                 <div>
-                    <SearchBar/>
-                    <Video videoId={this.state.currentMovie.videoId}/>
-                    {renderVideoList()}
-                    <VideoDetail title={this.state.currentMovie.title} description={this.state.currentMovie.overview}/>
+                    <div className="row">
+                        <div className="search_bar">
+                            <SearchBar/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-8">
+                            <Video videoId={this.state.currentMovie.videoId}/>
+                            <VideoDetail title={this.state.currentMovie.title} description={this.state.currentMovie.overview}/>
+                        </div>
+                        <div className="col-md-4">
+                            {renderVideoList()}
+                        </div>
+                    </div>
+                    
                 </div>
             );
     }
