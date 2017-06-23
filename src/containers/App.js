@@ -4,6 +4,7 @@ import axios from 'axios';
 import SearchBar from "../components/SearchBar";
 import VideoList from "../containers/VideoList";
 import VideoDetail from "../components/VideoDetail";
+import Video from "../components/Video";
 
 
 
@@ -42,7 +43,7 @@ class App extends Component{
 
     applyVideoToCurrentMovie(){
         axios.get(`${API_END_POINT}movie/${this.state.currentMovie.id}?${API_KEY}&append_to_response=videos&include_adult=false`).then((response)=>{
-                       const youtubeKey = response.data.videos.result[0].key;
+                       const youtubeKey = response.data.videos.results[0].key;
                        let newCurrentMovieState = this.state.currentMovie;
                        newCurrentMovieState.videoId = youtubeKey;
                        this.setState({
@@ -60,6 +61,7 @@ class App extends Component{
         return(
                 <div>
                     <SearchBar/>
+                    <Video videoId={this.state.currentMovie.videoId}/>
                     {renderVideoList()}
                     <VideoDetail title={this.state.currentMovie.title} description={this.state.currentMovie.overview}/>
                 </div>
