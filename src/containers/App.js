@@ -24,22 +24,43 @@ class App extends Component{
     }
 
     componentWillMount(){
-        axios.get(`${API_END_POINT}${POPULAR_MOVIES_URL}&${API_KEY}`).then((resp)=>{
-            console.log(resp);
-            this.setState({
-                movieList: resp.data.results.slice(1,6),
-                currentMovie: resp.data.results[0]
-            })
-        });
+        this.initMovies();
+    }
+    initMovies = ()=>{
+        axios.get(`${API_END_POINT}${POPULAR_MOVIES_URL}&${API_KEY}`).then((response)=>{
+                        this.setState(
+                            {
+                            movieList:response.data.results.slice(1,6),
+                            currentMovie:response.data.results[0]
+                        },
+                        //Le state a ete mis a jour
+                        ()=>{
+                                this.applyVideoToCurrentMovie();   
+                        });  
+                });
+    }
 
-
+    applyVideoToCurrentMovie(){
+        axios.get(`${API_END_POINT}movie/${this.state.currentMovie.id}?${API_KEY}&append_to_response=videos&include_adult=false`).then((response)=>{
+                       const youtubeKey = response.data.videos.result[0].key;
+                       let newCurrentMovieState = this.state.currentMovie;
+                       newCurrentMovieState.videoId = youtubeKey;
+                       this.setState({
+                           currentMovie: newCurrentMovieState
+                       })
+                });
     }
 
     render(){
+        const renderVideoList = () => {
+            if(this.state.movieList.length >= 5){
+                return <VideoList movieList={this.state.movieList}/>;
+            }
+        }
         return(
                 <div>
                     <SearchBar/>
-                    <VideoList />
+                    {renderVideoList()}
                     <VideoDetail title={this.state.currentMovie.title} description={this.state.currentMovie.overview}/>
                 </div>
             );
@@ -47,3 +68,4 @@ class App extends Component{
 }
 
 export default App;
+
