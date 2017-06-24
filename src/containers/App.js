@@ -11,6 +11,7 @@ import Video from "../components/Video";
 const API_END_POINT = "https://api.themoviedb.org/3/"
 const POPULAR_MOVIES_URL = "discover/movie?language=fr&"
                             +"sort_by=popularity.desc&include_adult=false&append_to_response=images";
+const SEARCH_URL = "search/movie?language=fr&include_adult=false";                          
 const API_KEY = "api_key=8bad2808f7fc5436df90eccd5aef1541";
 
 class App extends Component{
@@ -64,6 +65,27 @@ class App extends Component{
         );
 
     };
+    movieSearch = (search) => {
+        if(search){
+            axios.get(`${API_END_POINT}${SEARCH_URL}&${API_KEY}&query=${search}`).then(
+                (response) => {
+                    if(response.data && response.data.results[0]){
+                        if(response.data.results[0].id != this.state.currentMovie.id ){
+                            this.setState(
+                                {
+                                    currentMovie: response.data.results[0]
+                                },
+                                ()=>{
+                                    this.applyVideoToCurrentMovie();
+                                }
+                            );
+                        }
+                    }
+                }
+            );
+        }
+    }
+
 
 
     render(){
@@ -76,7 +98,7 @@ class App extends Component{
                 <div>
                     <div className="row">
                         <div className="search_bar">
-                            <SearchBar/>
+                            <SearchBar movieSearch={this.movieSearch}/>
                         </div>
                     </div>
                     <div className="row">
